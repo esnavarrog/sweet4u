@@ -1,0 +1,64 @@
+<section class="welcome-section relative min-h-screen">
+  <div class="relative z-10 flex flex-col md:flex-row items-center justify-center h-full px-6 py-12 max-w-7xl mx-auto space-y-10 md:space-y-0 md:space-x-10">
+
+    <!-- Hero -->
+    <div class="text-white md:w-1/2 space-y-6">
+      <%= image_tag('logo.png', class:'w-full') %>
+      <h1 class="text-4xl font-extrabold">Actualiza tu estilo de vida</h1>
+      <p class="text-lg text-gray-200">Conoce personas con gustos similares, vive experiencias únicas y conecta con quien estás buscando.</p>
+
+      <!-- Selector de rol -->
+      <div class="flex gap-4">
+        <button type="button" data-role="sugar_daddy" class="text-pink-600 role-btn px-4 py-2 bg-white bg-opacity-20 hover:bg-pink-500 hover:text-white font-semibold rounded-lg border border-white">
+          Soy SugarDaddy
+        </button>
+        <button type="button" data-role="sugar_babe" class="text-pink-600 role-btn px-4 py-2 bg-white bg-opacity-20 hover:bg-pink-500 hover:text-white font-semibold rounded-lg border border-white">
+          Soy SugarBabe
+        </button>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="w-full md:w-1/2 max-w-md p-8">
+      <div class="bg-white bg-opacity-90 rounded-xl shadow-lg backdrop-blur p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Crear cuenta</h2>
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+          <%= hidden_field_tag :role, "", id: "user-role" %>
+
+          <div>
+            <%= f.label :email, "Correo electrónico", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :name, "Nombre de usuario", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :name, class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :password, "Contraseña", class: "block text-sm font-medium text-gray-700" %>
+            <% if @minimum_password_length %>
+              <span class="text-xs text-gray-500">(<%= @minimum_password_length %> caracteres mínimo)</span>
+            <% end %>
+            <%= f.password_field :password, autocomplete: "new-password", class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :password_confirmation, "Confirmar contraseña", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-pink-500 focus:ring-pink-500 sm:text-sm" %>
+          </div>
+
+          <%= f.submit "Crear cuenta", class: "w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2.5 px-4 rounded-lg shadow" %>
+        <% end %>
+
+        <div class="text-center text-sm text-gray-600 mt-4">
+          ¿Ya tienes una cuenta?
+          <%= link_to "Inicia sesión", new_session_path(resource_name), class: "text-pink-600 hover:underline font-medium" %>
+        </div>
+      </div>
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</section>

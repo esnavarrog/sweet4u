@@ -1,0 +1,3 @@
+'<%= form_with(model: @profile) do |form| %>'
+  $('#images-profile').replaceWith("<%= j render partial: 'profiles/images', locals: { form: form } %>")
+'<% end %>'

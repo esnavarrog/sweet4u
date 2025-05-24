@@ -1,0 +1,8 @@
+<% if @profile.errors.empty? %>
+  alert('Profile updated successfully!');
+  window.location.href = '<%= profile_path(@profile.user_id) %>';
+<% else %>
+  '<%= form_with(model: @profile) do |form| %>'
+    $('#images-profile').replaceWith("<%= j render partial: 'profiles/images', locals: { form: form } %>")
+  '<% end %>'
+<% end %>

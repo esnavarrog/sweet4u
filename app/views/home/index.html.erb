@@ -1,0 +1,38 @@
+<div class="flex flex-col md:flex-row min-h-screen bg-gray-100 mt-16">
+  <!-- Contenido principal -->
+  <main class="flex-1 p-6">
+    <!-- Mensaje de bienvenida -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-800">¡Bienvenido/a de vuelta!</h1>
+      <p class="text-gray-600 mt-2">Estos perfiles podrían interesarte...</p>
+    </div>
+
+    <p>Tu perfil está completo al <%= @profile_completion || 90 %>%. Completa la información faltante para mejorar tus posibilidades de encontrar coincidencias. <%= link_to 'Ir al Perfil', profile_path(current_user) %></p>
+    <div class="w-full bg-gray-200 rounded-full h-4 mb-6">
+      <div class="bg-pink-600 h-4 rounded-full" style="width: <%= @profile_completion || 90 %>%"></div>
+    </div>
+
+    <!-- Grid de perfiles sugeridos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <% 6.times do %>
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow">
+          <div class="relative pb-[100%] overflow-hidden">
+            <%= image_tag 'sample-profile.jpeg', class: "absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" %>
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+              <h3 class="text-white font-semibold text-lg">Nombre Usuario</h3>
+              <p class="text-gray-200 text-sm">28 años • Ciudad</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between items-center">
+              <span class="text-pink-600 font-medium">Compatible 85%</span>
+              <button class="text-white bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded-lg font-medium transition-colors">
+                Conectar
+              </button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>

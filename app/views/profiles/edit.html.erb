@@ -1,0 +1,323 @@
+<div class="flex min-h-screen bg-gray-50 mt-16">
+  <!-- Main Content -->
+  <main class="flex-1 p-6">
+    <!-- Header with search and user menu -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+      <div class="relative px-6 pb-6">
+        <div class="flex flex-col md:flex-row md:items-end">
+          <div class="">
+            <img src="<%= @profile.user.avatar_image %>" alt="Avatar" class="h-32 w-32 rounded-full border-4 border-white object-cover">
+          </div>
+          <div class="mt-16 md:mt-0 md:ml-40">
+            <div class="flex flex-col md:flex-row md:items-end md:space-x-4">
+              <h2 class="text-2xl font-bold text-gray-800"><%= @profile.user.name&.upcase %></h2>
+              <h2 class="text-xl font-bold text-gray-400"><%= @profile.user.email %></h2>
+              <% if current_user.admin? %>
+                <span class="text-rose-500 bg-rose-100 px-3 py-1 rounded-full text-sm"><%= @profile.user.role %></span>
+              <% end %>
+            </div>
+            <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+              <h2 class="text-2xl font-bold text-gray-800"><%= @profile.user.username %></h2>
+              <% if @profile.gender.present? %>
+                <span class="text-rose-500 bg-rose-100 px-3 py-1 rounded-full text-sm"><%= @profile.gender %></span>
+              <% end %>
+            </div>
+            <% if @profile.location.present? %>
+              <div class="flex items-center text-gray-600 mt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span><%= @profile.location %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <%= form_with(model: @profile, local: false, class: "space-y-6", multipart: true, data: { remote: true }) do |form| %>      <!-- Profile Photos -->
+      <%= render partial: 'profiles/images', locals: { form: form } %>
+
+      <!-- Basic Information -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Información básica</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div>
+              <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">Biografía</label>
+              <%= form.text_area :bio, rows: 4, class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200", placeholder: "Cuéntanos sobre ti..." %>
+            </div>
+            <div>
+              <label for="profile_birthdate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de nacimiento</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                  <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                  </svg>
+                </div>
+                <input name="profile[birthdate]" value="<%= format_date @profile.birthdate %>" datepicker datepicker-format="dd-mm-yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Fecha de Necimiento">
+              </div>
+            </div>
+
+
+            <div>
+              <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Género</label>
+              <%= form.select :gender,
+                              [
+                                ['Selecciona tu género', ''],
+                                ['Hombre', 'Hombre'],
+                                ['Mujer', 'Mujer'],
+                                ['No binario', 'No binario'],
+                                ['Otro', 'Otro']
+                              ],
+                              {},
+                              { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+              %>
+            </div>
+
+            <div>
+              <label for="sexual_orientation" class="block text-sm font-medium text-gray-700 mb-1">Orientación sexual</label>
+              <%= form.select :sexual_orientation,
+                              [
+                                ['Selecciona tu orientación', ''],
+                                ['Heterosexual', 'Heterosexual'],
+                                ['Homosexual', 'Homosexual'],
+                                ['Bisexual', 'Bisexual'],
+                                ['Pansexual', 'Pansexual'],
+                                ['Asexual', 'Asexual'],
+                                ['Otro', 'Otro']
+                              ],
+                              {},
+                              { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+              %>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Ubicación</label>
+              <%= form.text_field :location, class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200", placeholder: "Ciudad, País" %>
+            </div>
+
+            <div>
+              <label for="looking_for" class="block text-sm font-medium text-gray-700 mb-1">Buscando</label>
+              <%= form.select :looking_for,
+                              [
+                                ['¿Qué estás buscando?', ''],
+                                ['Hombres', 'Hombres'],
+                                ['Mujeres', 'Mujeres'],
+                                ['Todos', 'Todos']
+                              ],
+                              {},
+                              { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+              %>
+            </div>
+
+            <div>
+              <label for="relationship_type" class="block text-sm font-medium text-gray-700 mb-1">Tipo de relación</label>
+              <%= form.select :relationship_type,
+                              [
+                                ['¿Qué tipo de relación buscas?', ''],
+                                ['Amistad', 'Amistad'],
+                                ['Citas casuales', 'Citas casuales'],
+                                ['Relación seria', 'Relación seria'],
+                                ['Matrimonio', 'Matrimonio']
+                              ],
+                              {},
+                              { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+              %>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Visibilidad del perfil</label>
+              <div class="flex items-center">
+                <%= form.check_box :is_visible, class: "h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded" %>
+                <label for="is_visible" class="ml-2 block text-sm text-gray-700">Hacer mi perfil visible para otros usuarios</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appearance -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Apariencia</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label for="height" class="block text-sm font-medium text-gray-700 mb-1">Altura (cm)</label>
+            <%= form.number_field :height, class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200", placeholder: "Ej: 175" %>
+          </div>
+
+          <div>
+            <label for="body_type" class="block text-sm font-medium text-gray-700 mb-1">Tipo de cuerpo</label>
+            <%= form.select :body_type,
+                            [
+                              ['Selecciona una opción', ''],
+                              ['Atlético', 'Atlético'],
+                              ['Promedio', 'Promedio'],
+                              ['Delgado', 'Delgado'],
+                              ['Musculoso', 'Musculoso'],
+                              ['Curvilíneo', 'Curvilíneo'],
+                              ['Robusto', 'Robusto'],
+                              ['Otro', 'Otro']
+                            ],
+                            {},
+                            { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+            %>
+          </div>
+
+          <div>
+            <label for="ethnicity" class="block text-sm font-medium text-gray-700 mb-1">Etnicidad</label>
+            <%= form.select :ethnicity,
+                            [
+                              ['Selecciona una opción', ''],
+                              ['Asiático', 'Asiático'],
+                              ['Negro/Afrodescendiente', 'Negro/Afrodescendiente'],
+                              ['Hispano/Latino', 'Hispano/Latino'],
+                              ['Blanco/Caucásico', 'Blanco/Caucásico'],
+                              ['Indígena', 'Indígena'],
+                              ['Medio Oriente', 'Medio Oriente'],
+                              ['Multirracial', 'Multirracial'],
+                              ['Otro', 'Otro']
+                            ],
+                            {},
+                            { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+            %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lifestyle -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Estilo de vida</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="education" class="block text-sm font-medium text-gray-700 mb-1">Educación</label>
+            <%= form.select :education,
+                            [
+                              ['Selecciona una opción', ''],
+                              ['Secundaria', 'Secundaria'],
+                              ['Técnico/Tecnólogo', 'Técnico/Tecnólogo'],
+                              ['Universidad', 'Universidad'],
+                              ['Postgrado', 'Postgrado'],
+                              ['Doctorado', 'Doctorado'],
+                              ['Otro', 'Otro']
+                            ],
+                            {},
+                            { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+            %>
+          </div>
+
+          <div>
+            <label for="occupation" class="block text-sm font-medium text-gray-700 mb-1">Ocupación</label>
+            <%= form.text_field :occupation, class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200", placeholder: "¿A qué te dedicas?" %>
+          </div>
+
+          <div>
+            <label for="religion" class="block text-sm font-medium text-gray-700 mb-1">Religión</label>
+            <%= form.select :religion,
+                            [
+                              ['Selecciona una opción', ''],
+                              ['Agnóstico', 'Agnóstico'],
+                              ['Ateo', 'Ateo'],
+                              ['Budista', 'Budista'],
+                              ['Católico', 'Católico'],
+                              ['Cristiano', 'Cristiano'],
+                              ['Hindú', 'Hindú'],
+                              ['Judío', 'Judío'],
+                              ['Musulmán', 'Musulmán'],
+                              ['Espiritual', 'Espiritual'],
+                              ['Otro', 'Otro']
+                            ],
+                            {},
+                            { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+            %>
+          </div>
+
+          <div>
+            <label for="political_views" class="block text-sm font-medium text-gray-700 mb-1">Visión política</label>
+            <%= form.select :political_views,
+                            [
+                              ['Selecciona una opción', ''],
+                              ['Liberal', 'Liberal'],
+                              ['Moderado', 'Moderado'],
+                              ['Conservador', 'Conservador'],
+                              ['No interesado', 'No interesado'],
+                              ['Otro', 'Otro']
+                            ],
+                            {},
+                            { class: "w-full rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" }
+            %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interests -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Intereses</h3>
+        <p class="text-sm text-gray-500 mb-4">Selecciona tus intereses para conectar con personas afines.</p>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <% ['Deportes', 'Música', 'Cine', 'Lectura', 'Viajes', 'Cocina', 'Arte', 'Fotografía',
+              'Tecnología', 'Moda', 'Fitness', 'Yoga', 'Senderismo', 'Videojuegos', 'Baile', 'Teatro'].each do |interest| %>
+            <div class="flex items-center">
+              <input type="checkbox" id="interest_<%= interest.downcase %>" name="profile[interests][]" value="<%= interest %>" <%= 'checked' if @profile.interests&.include?(interest) %> class="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded">
+              <label for="interest_<%= interest.downcase %>" class="ml-2 block text-sm text-gray-700"><%= interest %></label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Preferences -->
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Preferencias de búsqueda</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Rango de edad</h3>
+
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <label for="min-age" class="block text-sm font-medium text-gray-700">Edad mínima</label>
+                <input type="number" id="min-age" name="min_age" min="18" max="99" class="w-24 rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" value="18">
+              </div>
+
+              <div>
+                <label for="max-age" class="block text-sm font-medium text-gray-700">Edad máxima</label>
+                <input type="number" id="max-age" name="max_age" min="18" max="99" class="w-24 rounded-lg border-gray-300 focus:border-rose-500 focus:ring focus:ring-rose-200" value="99">
+              </div>
+            </div>
+
+            <%= form.hidden_field :age_range, id: "age-range-input" %>
+          </div>
+
+          <div>
+            <%= form.label :distance_range, 'Distancia máxima para busqueda' %>
+            <div class="space-y-2">
+              <%= form.range_field :distance_range, min: 1, max: 300, step: 1, class: "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-rose-500" %>
+              <div class="flex justify-between text-xs text-gray-500">
+                <span>1 km</span>
+                <span id="distance-value"><%= @profile.distance_range || 50 %> km</span>
+                <span>100 km</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="flex justify-end space-x-4">
+        <button type="button" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-200">
+          Cancelar
+        </button>
+        <%= form.submit "Guardar cambios", class: "px-6 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg shadow-md transition duration-200" %>
+      </div>
+    <% end %>
+  </main>
+</div>

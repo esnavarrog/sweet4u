@@ -1,0 +1,27 @@
+<div id="images-profile" class="bg-white rounded-xl shadow-md p-6">
+  <h3 class="text-xl font-bold text-gray-800 mb-4">Fotos de perfil</h3>
+  <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+    <% (1..6).each do |i| %>
+      <div>
+        <%= form.check_box :avatar_image, { class: "form-check-input", data: { image_number: i }, checked: @profile.avatar_image == i }, i, nil %>
+        <%= form.label :avatar_image, "Usar como avatar", class: "form-check-label" %>
+        <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden relative group">
+          <div class="w-full h-full flex items-center justify-center text-gray-400 preview-container">
+            <label class="relative cursor-pointer w-full h-full flex items-center justify-center">
+              <%= image_tag @profile.send("image#{i}")&.url, id:"preview_#{i}", class:"#{'hidden' unless @profile.send("image#{i}").present?} w-full h-full object-cover" %>
+              <svg id="add_<%= i %>" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 add-icon <%= 'hidden' if @profile.send("image#{i}").present? %>" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              <svg id="remove_<%= i %>" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 hidden text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              <%= form.file_field "image#{i}", multiple: false, class: "hidden gallery-upload-input", id: "gallery_upload_#{i}", data: { preview_id: "preview_#{i}", image_number: i } %>
+            </label>
+          </div>
+        </div>
+        <%= link_to 'Eliminar', delete_image_profile_path(i), class:'btn btn-danger btn-sm', remote: true, method: :get if @profile.send("image#{i}").present? %>
+      </div>
+    <% end %>
+  </div>
+  <p class="text-sm text-gray-500 mt-4">Añade hasta 6 fotos.</p>
+</div>
