@@ -3,7 +3,7 @@
   <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
     <% (1..6).each do |i| %>
       <div>
-        <%= form.check_box :avatar_image, { class: "form-check-input", data: { image_number: i }, checked: @profile.avatar_image == i }, i, nil %>
+        <%= form.check_box :avatar_image, { class: "form-check-input avatar-checkbox", data: { image_number: i }, checked: @profile.avatar_image == i }, i, nil %>
         <%= form.label :avatar_image, "Usar como avatar", class: "form-check-label" %>
         <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden relative group">
           <div class="w-full h-full flex items-center justify-center text-gray-400 preview-container">

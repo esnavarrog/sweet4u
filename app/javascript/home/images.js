@@ -1,4 +1,16 @@
 document.addEventListener('turbo:load', function() {
+
+    const checkboxes = document.querySelectorAll('.avatar-checkbox');
+
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            checkboxes.forEach(function(otherCheckbox) {
+                if (otherCheckbox !== checkbox) {
+                    otherCheckbox.checked = false;
+                }
+            });
+        });
+    });
     function handleFileSelect(event) {
         const input = event.target;
         const previewId = input.dataset.previewId;
