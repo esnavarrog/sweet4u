@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../../node_modules/flowbite";
+@source "../../../node_modules/flowbite/flowbite-datepicker";
+
+.welcome-section {
+    background-image: url("wallpaper-welcome.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.preview-container {
+    position: relative;
+}
+
+.preview-container svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease; /* Agrega una transición suave */
+}
+
+.preview-container svg:hover {
+    transform: translate(-50%, -50%) scale(1.2); /* Aplica un zoom del 120% */
+}
