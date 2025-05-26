@@ -20,9 +20,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: transform 0.3s ease; /* Agrega una transición suave */
+    transition: transform 0.3s ease;
 }
 
 .preview-container svg:hover {
-    transform: translate(-50%, -50%) scale(1.2); /* Aplica un zoom del 120% */
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.chat-messages-container{
+    height: calc(100vh - 65px);
 }

@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "chat_panel" do %>
+  <%= render partial: "conversations/conversation_content",
+             locals: { conversation: @conversation, messages: @messages, message: @message } %>
+<% end %>

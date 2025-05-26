@@ -1,0 +1,39 @@
+<% other_user = conversation.users.reject { |u| u == current_user }.first %>
+<% unread_count = conversation.unread_messages_for(current_user).count %>
+
+<%= link_to conversation_path(conversation),
+            data: {
+              turbo_frame: "chat_panel",
+              turbo_prefetch: "false",
+              controller: "conversation-list-item",
+              conversation_list_item_id_value: conversation.id
+            },
+            class: "flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors duration-200" do %>
+
+  <div class="flex items-center flex-grow">
+    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold mr-3 text-sm">
+      <%= image_tag other_user&.avatar_image, class:'rounded-full' %>
+    </div>
+    <div class="flex-grow">
+      <p class="text-md font-semibold text-gray-800 truncate">
+        <%= other_user&.name %>
+      </p>
+      <% last_message = conversation.messages.last %>
+      <% if last_message %>
+        <p class="text-xs text-gray-500 truncate max-w-[calc(100%-1.5rem)]">
+          <%= last_message.content %>
+        </p>
+      <% else %>
+        <p class="text-xs text-gray-500 truncate max-w-[calc(100%-1.5rem)]">
+          No messages yet.
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <span data-conversation-list-item-target="unreadCountBadge"
+        class="flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full ml-2
+               <%= 'hidden' if unread_count == 0 %>">
+    <%= unread_count %>
+  </span>
+<% end %>

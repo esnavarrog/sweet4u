@@ -44,8 +44,10 @@
           ¿No tienes una cuenta?
           <%= link_to "Regístrate gratis ahora", new_registration_path(resource_name), class: "text-pink-600 hover:underline font-medium" %>
         </div>
+        <div class="text-left">
+          <%= render "devise/shared/links" %>
+        </div>
       </div>
-      <%= render "devise/shared/links" %>
     </div>
   </div>
 </section>

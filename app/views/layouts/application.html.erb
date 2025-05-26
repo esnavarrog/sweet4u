@@ -19,9 +19,15 @@
   </head>
 
   <body class="bg-red-900">
-    <main class="container-fluid bg-gray-100">
-      <%= render 'layouts/structure/layout' if current_user %>
-      <%= yield %>
-    </main>
+    <% if user_signed_in? && current_user %>
+      <main class="container-fluid bg-gray-100" data-controller="user-notifications" data-user-notifications-user-id-value="<%= current_user.id %>">
+        <%= render 'layouts/structure/layout' %>
+        <%= yield %>
+      </main>
+    <% else %>
+      <main class="container-fluid bg-gray-100">
+        <%= yield %>
+      </main>
+    <% end %>
   </body>
 </html>

@@ -1,0 +1,72 @@
+<div class="flex-grow flex flex-col h-full chat-messages-container"
+     data-controller="conversation-channel"
+     data-conversation-channel-conversation-id-value="<%= conversation.id %>"
+     data-conversation-channel-current-user-id-value="<%= current_user.id %>"
+     data-conversation-channel-initial-messages-value="<%=
+       messages.map do |msg|
+         {
+           user_id: msg.user_id,
+           user_name: msg.user.name,
+           content: msg.content,
+           created_at: l(msg.created_at, format: :short)
+         }
+       end.to_json
+     %>"
+>
+
+  <div class="flex items-center p-4 border-b border-gray-200">
+    <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-semibold mr-3">
+      <%= image_tag conversation.users.reject { |u| u == current_user }.first.avatar_image, class:'rounded-full' %>
+    </div>
+    <div>
+      <div>
+        <h1 class="text-xl font-semibold text-gray-800">
+          Conversación con <%= conversation.users.reject { |u| u == current_user }.first.name %>
+        </h1>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-sm text-gray-500">
+          Último mensaje: <%= messages.last&.created_at&.strftime("%d %b %Y, %H:%M") || "No hay mensajes" %>
+        </span>
+        <span data-conversation-channel-target="typingIndicator" class="hidden">
+          <div class="text-gray-800 text-sm">
+            <span class="font-semibold"></span>
+            <span> está escribiendo...</span>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div id="messages"
+       data-conversation-channel-target="messages"
+       class="flex-grow space-y-4 p-4 overflow-y-auto bg-white max-h-full">
+  </div>
+
+  <%= form_with model: [conversation, message], html: {
+    data: {
+      controller: 'message',
+      action: 'turbo:submit-end->message#clearForm',
+      message_target: 'form',
+      message_conversation_id_value: conversation.id,
+      message_current_user_id_value: current_user.id
+    },
+    class: "flex items-center space-x-3 p-4 border-t border-gray-200"
+  } do |form| %>
+    <%= form.text_area :content,
+                       data: {
+                         message_target: "content",
+                         action: "input->message#userTyping keydown->message#handleKeydown"
+                       },
+                       class: "block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 p-2.5 resize-none",
+                       placeholder: "Escribe tu mensaje aquí...",
+                       autofocus: true,
+                       rows: 1
+    %>
+    <button type="button"
+            data-action="click->message#submitForm"
+            class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer">
+      Enviar
+    </button>
+  <% end %>
+</div>

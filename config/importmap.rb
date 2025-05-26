@@ -12,3 +12,5 @@ pin "home/age_range_slider", to: "home/age_range_slider.js", preload: true
 pin "home/images", to: "home/images.js", preload: true
 pin "jquery", to: "jquery.min.js", preload: true
 pin "jquery_ujs", to: "jquery_ujs.js", preload: true
+pin "@rails/actioncable", to: "actioncable.esm.js" # Primero, la gema base
+pin_all_from "app/javascript/channels", under: "channels" # Luego, tus canales

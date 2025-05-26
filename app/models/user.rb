@@ -6,7 +6,10 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable, :trackable
 
   mount_uploader :avatar, AvatarUploader
-
+  has_many :messages
+  has_many :participants
+  has_many :conversations, through: :participants
+  has_many :read_receipts
   has_one :profile, dependent: :destroy, autosave: true
 
   enum :role, { admin: 1, user: 0 }, prefix: true

@@ -12,4 +12,10 @@ Rails.application.routes.draw do
   resources :profiles, path: 'perfiles', only: [:index, :show, :edit, :update]
 
   get 'delete_image_profile/:image_number', to: 'profiles#delete_image_profile', as: 'delete_image_profile'
+
+  # Modelos para mensajería
+  mount ActionCable.server => '/cable'
+  resources :conversations, only: [:index, :show, :create] do
+    resources :messages, only: [:create]
+  end
 end
