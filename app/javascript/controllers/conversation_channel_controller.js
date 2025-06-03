@@ -27,6 +27,7 @@ export default class extends Controller {
   }
 
   loadInitialMessages() {
+    console.log(this.initialMessagesValue)
     if (this.initialMessagesValue && this.initialMessagesValue.length > 0) {
       this.initialMessagesValue.forEach(messageData => {
         this.appendMessage({

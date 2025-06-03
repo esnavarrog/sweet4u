@@ -19,7 +19,7 @@ export default class extends Controller {
                 { channel: "ConversationChannel", id: this.conversationIdValue },
                 {
                     connected: () => console.log("Controlador de mensajes: Conectado a ConversationChannel para el estado de escritura"),
-                    disconnected: () => console.log("Controlador de mensajes: Desconectado de ConversationChannel para el estado de escritura"),
+                    disconnected: () => this.loadInitialMessages(),
                     received: data => console.log("Controlador de mensajes: Datos recibidos (escritura):", data)
                 }
             );

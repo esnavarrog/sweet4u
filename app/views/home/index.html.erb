@@ -7,9 +7,9 @@
       <p class="text-gray-600 mt-2">Estos perfiles podrían interesarte...</p>
     </div>
 
-    <p>Tu perfil está completo al <%= @profile_completion || 90 %>%. Completa la información faltante para mejorar tus posibilidades de encontrar coincidencias. <%= link_to 'Ir al Perfil', profile_path(current_user) %></p>
+    <p>Tu perfil está completo al <%= current_user.profile.complete_percentage %>%. Completa la información faltante para mejorar tus posibilidades de encontrar coincidencias. <%= link_to 'Ir al Perfil', profile_path(current_user) %></p>
     <div class="w-full bg-gray-200 rounded-full h-4 mb-6">
-      <div class="bg-pink-600 h-4 rounded-full" style="width: <%= @profile_completion || 90 %>%"></div>
+      <div class="bg-pink-600 h-4 rounded-full" style="width: <%= current_user.profile.complete_percentage %>%"></div>
     </div>
 
     <!-- Grid de perfiles sugeridos -->

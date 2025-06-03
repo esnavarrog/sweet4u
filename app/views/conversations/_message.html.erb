@@ -1,0 +1,15 @@
+<% is_current_user = message.user == current_user %>
+
+<div class="flex <%= is_current_user ? 'justify-end' : 'justify-start' %> mb-4">
+  <div class="flex items-end">
+    <div class="relative max-w-xs sm:max-w-sm lg:max-w-md px-4 py-2 rounded-lg shadow
+                <%= is_current_user ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-gray-200 text-gray-800 rounded-bl-none' %>">
+      <p class="text-sm break-words">
+        <%= message.content %>
+      </p>
+      <div class="text-xs mt-1 <%= is_current_user ? 'text-indigo-200' : 'text-gray-500' %> text-right">
+        <%= format_date(message.created_at) %>
+      </div>
+    </div>
+  </div>
+</div>

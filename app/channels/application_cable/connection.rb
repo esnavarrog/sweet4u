@@ -8,11 +8,12 @@ module ApplicationCable
       logger.add_tags 'ActionCable', current_user.id
     end
 
-    private
+    protected
+
     def find_verified_user
-      # Si usas Devise, esta es la forma recomendada:
-      if current_user = env['warden'].user # Env['warden'] es la interfaz de autenticación de Devise
-        current_user
+      verified_user = User.find_by(id: cookies.signed['user.id'])
+      if verified_user && cookies.signed['user.expires_at'] > Time.now
+        verified_user
       else
         reject_unauthorized_connection
       end
